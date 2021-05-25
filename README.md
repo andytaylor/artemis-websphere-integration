@@ -1,7 +1,7 @@
-# artemis-websphere-integration
+# Artemis-websphere-integration
 An example of configuring the Artemis Resource Adapter in WebSphere.
 
-##Create the Broker
+## Create the Broker
 
 From the broker registry firstly set ARTEMIS_HOME to point at an Artemis distribution
 
@@ -21,9 +21,25 @@ then start the broker
  ./target/server0/bin/artemis run
 ```
 
-##Build the MDB
+## Build the MDB
 
-##install RAR
+navigate to the `tst-mdb` directory and run 
+
+```
+mvn clean package
+```
+
+## build the Resource Adapter
+
+Checkout the Source Code for Artemis, navigate to `examples/features/sub-modules/artemis-ra-rar` and run
+
+```
+mvn clean package
+```
+
+
+
+## install RAR
 
 before installing the RAR you ill need to create a user identity as an alias to configure the MDB Activation and J2C connector factory with.
 The user and password should match a user in Artemis.  
