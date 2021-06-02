@@ -1,4 +1,4 @@
-package com.angelogalvao.samples;
+package org.andy.client;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
