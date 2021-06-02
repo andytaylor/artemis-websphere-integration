@@ -1,4 +1,4 @@
-# Artemis-websphere-integration
+# Artemis Websphere-Integration
 An example of configuring the Artemis Resource Adapter in WebSphere.
 
 ## Create the Broker
