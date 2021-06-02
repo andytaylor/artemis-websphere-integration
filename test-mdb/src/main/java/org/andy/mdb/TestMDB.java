@@ -22,8 +22,7 @@ import org.jboss.ejb3.annotation.ResourceAdapter;
 @ResourceAdapter("ArtemisRA")
 @MessageDriven(name = "TestMDB", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:eis/inQueue"),
-		@ActivationConfigProperty(propertyName = "allowLocalTransactions", propertyValue = "true")
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:eis/inQueue")
 })
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class TestMDB implements MessageListener {

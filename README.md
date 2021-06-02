@@ -29,7 +29,7 @@ navigate to the `tst-mdb` directory and run
 mvn clean package
 ```
 
-## build the Resource Adapter
+## Build the Resource Adapter
 
 Checkout the Source Code for Artemis, navigate to `examples/features/sub-modules/artemis-ra-rar` and run
 
@@ -39,7 +39,7 @@ mvn clean package
 
 
 
-## install RAR
+## Install RAR to WebSphere
 
 before installing the RAR you ill need to create a user identity as an alias to configure the MDB Activation and J2C connector factory with.
 The user and password should match a user in Artemis.  
@@ -94,3 +94,11 @@ we don't set the authentication alias on the incoming connection as this is set 
 ---
 
 you can now save to the master configuration
+
+## Deploying the MDB
+
+From the Applications left hand menu click `New Applciation` and choose the test mdb jar in the target directory.
+
+
+
+# Gotchas
