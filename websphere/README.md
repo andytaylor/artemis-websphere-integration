@@ -28,7 +28,40 @@ navigate to the `tst-mdb` directory and run
 ```
 mvn clean package
 ```
+## Build and deploy the Websphere Transaction Manager locator
 
+---
+**WARNING**
+
+Currently because of an issue with loading the WebSphere location manager this feature is currently not possible. The issue 
+is that when the classloader is isolated an error occurs when loading in the `WSTransactionManagerLocator` class that is 
+part of the transaction-manager-locator project. The error message is `java.lang.ClassCastException: com.ibm.ws.tx.jta.TranManagerSet incompatible with javax.transaction.TransactionManager`
+
+---
+
+The Artemis resource Adapter allows the configuration of the Transaction Manager used by the Application Server. This is 
+used for 2 things:
+
+1. To check the status of a transaction in certain states to better handle certain events such as timeouts and avoifing sending when th etransaction is alreay aborted
+2. For outgoing connections to decide whether or not to participate in a running JTA transaction when a session is created.
+
+To build the WebSphere Transaction Manager locator go to the `transaction-manager-locator` directory and run:
+
+```
+mvn clean install
+```
+
+and then before building the resource Adapter in the next chapter add the following dependency to the pom.xml of the RAR example.
+
+```xml
+<dependency>
+   <groupId>org.rhmessaging.artemis.ra.websphere.tx</groupId>
+   <artifactId>transaction-manager-locator</artifactId>
+   <version>1.0.0</version>
+  </dependency>
+```
+
+      
 ## Build the Resource Adapter
 
 Checkout the Source Code for Artemis, navigate to `examples/features/sub-modules/artemis-ra-rar` and run
@@ -50,7 +83,7 @@ navigate to Resource Adapters, click on Install RAR and enter the location of th
 
 ![Install rar 1](etc/installrar1.png)
 
-Most of the information will be enetered alreay as it is taken from the ra.xml. It is important to check the `Isolate this resource adapter`
+Most of the information will be entered already as it is taken from the ra.xml. It is important to check the `Isolate this resource adapter`
 so it uses its own classloader, failure to do this causes classloader issues when the RA is deployed. 
 
 ![Install rar 2](etc/installrar2.png)

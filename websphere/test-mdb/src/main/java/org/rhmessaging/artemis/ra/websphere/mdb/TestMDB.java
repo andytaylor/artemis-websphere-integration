@@ -1,4 +1,4 @@
-package org.andy.mdb;
+package org.rhmessaging.artemis.ra.websphere.mdb;
 
 
 import java.util.logging.Logger;
@@ -22,14 +22,15 @@ import org.jboss.ejb3.annotation.ResourceAdapter;
 @ResourceAdapter("ArtemisRA")
 @MessageDriven(name = "TestMDB", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:eis/inQueue")
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:eis/inQueue"),
+		@ActivationConfigProperty(propertyName = "TransactionManagerLocatorMethodClass", propertyValue = "org.rhmessaging.artemis.tx.WSTransactionManagerLocator")
 })
 @TransactionManagement(TransactionManagementType.CONTAINER)
 public class TestMDB implements MessageListener {
 	
 	private static final Logger log = Logger.getLogger(TestMDB.class.getName());
 
-	@Resource(mappedName="java:/eis/ArtemisConnectionFactory")
+	@Resource(mappedName="java:eis/ArtemisConnectionFactory")
 	private ConnectionFactory connectionFactory;
 
 	@Resource(mappedName="java:eis/outQueue")

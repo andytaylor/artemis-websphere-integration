@@ -1,4 +1,4 @@
-package org.andy.client;
+package org.rhmessaging.artemis.client;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class TestClient {
 
-	private static final Logger log = Logger.getLogger(com.angelogalvao.samples.TestClient.class.getName());
+	private static final Logger log = Logger.getLogger(org.rhmessaging.artemis.client.TestClient.class.getName());
 	
 	public final static int NUMBER_OF_MESSAGES = 100;
 
@@ -42,6 +42,8 @@ public class TestClient {
 			
 			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
+			Session session2 = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+
 			CountDownLatch latch = new CountDownLatch(NUMBER_OF_MESSAGES);
 
 			MessageListener messageListener = new MessageListener() {
@@ -57,7 +59,7 @@ public class TestClient {
 				}
 			};
 
-			MessageConsumer consumer = session.createConsumer(outQueue);
+			MessageConsumer consumer = session2.createConsumer(outQueue);
 
 			consumer.setMessageListener(messageListener);
 

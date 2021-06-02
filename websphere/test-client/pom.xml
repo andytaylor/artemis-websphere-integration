@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.andy.mdb</groupId>
+	<groupId>org.rh-messaging.artemis.examples.testclient</groupId>
 	<artifactId>test-client</artifactId>
 	<version>1.0.0</version>
 	<packaging>ejb</packaging>
@@ -16,45 +16,21 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-	
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-                <groupId>org.jboss.bom</groupId>
-                <artifactId>jboss-eap-javaee8-with-tools</artifactId>
-                <version>7.2.0.GA</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>7.0</version>
-			<scope>provided</scope>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>artemis-jms-client-all</artifactId>
+			<version>2.17.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>4.13.1</version>
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.jboss.eap</groupId>
-			<artifactId>wildfly-jms-client-bom</artifactId>
-			<type>pom</type>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.ejb3</groupId>
-			<artifactId>jboss-ejb3-ext-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
 	</dependencies>
 
