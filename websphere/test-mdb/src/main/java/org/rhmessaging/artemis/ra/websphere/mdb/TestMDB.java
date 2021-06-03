@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.jms.Connection;
@@ -22,10 +24,10 @@ import org.jboss.ejb3.annotation.ResourceAdapter;
 @ResourceAdapter("ArtemisRA")
 @MessageDriven(name = "TestMDB", activationConfig = {
 		@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-		@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:eis/inQueue"),
-		@ActivationConfigProperty(propertyName = "TransactionManagerLocatorMethodClass", propertyValue = "org.rhmessaging.artemis.tx.WSTransactionManagerLocator")
+		@ActivationConfigProperty(propertyName = "destination", propertyValue = "java:eis/inQueue")
 })
 @TransactionManagement(TransactionManagementType.CONTAINER)
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class TestMDB implements MessageListener {
 	
 	private static final Logger log = Logger.getLogger(TestMDB.class.getName());

@@ -74,12 +74,12 @@ mvn clean package
 
 ## Install RAR to WebSphere
 
-before installing the RAR you ill need to create a user identity as an alias to configure the MDB Activation and J2C connector factory with.
+Before installing the RAR you will need to create a user identity as an alias that will be used by the  MDB Activation and J2C connector factory.
 The user and password should match a user in Artemis.  
 
 ![add user](etc/adduseralias.png)
 
-navigate to Resource Adapters, click on Install RAR and enter the location of the Example Artemis Rar you created earler
+Navigate to Resource Adapters, click on Install RAR and enter the location of the Example Artemis Rar you created earlier
 
 ![Install rar 1](etc/installrar1.png)
 
@@ -93,36 +93,42 @@ Now navigate to ArtemisRA > J2C connection factories and click new to add a J2C 
 
 ![Install rar 2](etc/installrar3.png)
  
-the important elements here ate the `JNDI Name` which will be the connection factory you will look up in the MDB and adding 
-the user alias we created at the beginning of this chapter to the security settings. Click Apply.
+The important element here ate the `JNDI Name` which is the Connection Factory configured in the MDB:
+ 
+```java
+@Resource(mappedName="java:eis/ArtemisConnectionFactory")
+private ConnectionFactory connectionFactory;
+``` 
+ 
+Also yuo wll need to configure the Security Settings to use the alias created earlier. 
 
-This will now make `Connection pool properties` and `Advanced connection factory properties` clickable on the right, 
+Once you can now click `Apply` the `Connection pool properties` and `Advanced connection factory properties` on th right will be clickable, 
 if needed you can update the defaults for the the connection factory and connection pool.
 
-Now navigate to `J2C administered objects` where we will add 2 queues used by the MDB, inQueue and outQueue. firstly add 
+Now navigate to `J2C administered objects` where we will add the 2 queues used by the MDB, inQueue and outQueue. firstly add 
 an inQueue:
 
 ![Install rar 2](etc/installrar4.png)
 
-again the important element here is the `JNDI Name` which is used by the MDB and also the `Administered object class` should be of type Queue. 
+Again the important element here is the `JNDI Name` which is used by the MDB and also the `Administered object class` should be of type Queue. 
 Click apply then navigate to `J2C administered objects custom properties` on the right. 
 We need to set the `Address` to be the actual address configured in the Broker. Click Apply.
 
 ![Install rar 2](etc/installrar5.png)
 
-Now do the same for the outQueue
+Now do the same for the outQueue.
 
 Now lets add the MDB Activation by navigating to `J2C activation specifications`
 
 ![Install rar 2](etc/installrar6.png)
 
-configure the name and JNDI name of the Activation, this is used later when deploying the MDB. . Now navigate to `J2C activation specification custom properties` 
+Configure the name and JNDI name of the Activation, this is used later when deploying the MDB. . Now navigate to `J2C activation specification custom properties` 
 on the right and configure the `user` and `password` to the user configured in the broker and any other activation default you require. 
 
 ---
 **NOTE**
 
-we don't set the authentication alias on the incoming connection as this is set in the Activation itself
+we don't set the authentication alias on the incoming connection as this is set directly on the Activation itself.
 
 ---
 
@@ -130,8 +136,39 @@ you can now save to the master configuration
 
 ## Deploying the MDB
 
-From the Applications left hand menu click `New Applciation` and choose the test mdb jar in the target directory.
+This chapter will cover the main configuration options for a default. WebSphere has many configuratopn options so please 
+refer to the WebSphere manual for more information.
 
+From the Applications left hand menu click `New Application` and choose the test mdb jar in the target directory.
+
+![Install mdb 1](etc/installmdb1.png)
+
+For this examaple we will configure via the fast path as we are using mostly default configurations.
+
+![Install mdb 2](etc/installmdb2.png)
+
+Also leave the installation options with the defaults.
+
+![Install mdb 3](etc/installmdb3.png)
+
+Now check the boxes of the servers that you want to install the MDB too. Typicaly there will be only 1 in a local deployment
+
+![Install mdb 4](etc/installmdb4.png)
+
+Now check the box of the MDB and select `Activation Specification` and enter the jndi name of the Activation you created earlier.
+This will bind the queue configured in the MDB with the following code with the `outQueue` configured earler as an Administered Object.
+
+![Install mdb 5](etc/installmdb5.png)
+
+
+
+![Install mdb 6](etc/installmdb6.png)
+
+![Install mdb 7](etc/installmdb7.png)
+
+![Install mdb 8](etc/installmdb8.png)
+
+![Install mdb 9](etc/installmdb9.png)
 
 
 # Gotchas
