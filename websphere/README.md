@@ -93,14 +93,14 @@ Now navigate to ArtemisRA > J2C connection factories and click new to add a J2C 
 
 ![Install rar 2](etc/installrar3.png)
  
-The important element here ate the `JNDI Name` which is the Connection Factory configured in the MDB:
+The important element here is the `JNDI Name` which is the Connection Factory configured in the MDB:
  
 ```java
 @Resource(mappedName="java:eis/ArtemisConnectionFactory")
 private ConnectionFactory connectionFactory;
 ``` 
  
-Also yuo wll need to configure the Security Settings to use the alias created earlier. 
+Also you wll need to configure the Security Settings to use the alias created earlier. 
 
 Once you can now click `Apply` the `Connection pool properties` and `Advanced connection factory properties` on th right will be clickable, 
 if needed you can update the defaults for the the connection factory and connection pool.
@@ -160,15 +160,36 @@ This will bind the queue configured in the MDB with the following code with the 
 
 ![Install mdb 5](etc/installmdb5.png)
 
+Next we want to configure the Queue for the MDB by pointing it to the `JNDI` name of the Admistered Object we created earlier.
+
 
 
 ![Install mdb 6](etc/installmdb6.png)
 
+This maps to the queue defined on the MDB:
+
+```java
+@Resource(mappedName="java:eis/outQueue")
+private Queue queue;
+```
+Now we map the Connection factory created earlier to the Connection Factory used by the MDB.
+
 ![Install mdb 7](etc/installmdb7.png)
+
+This gives a warning saying that the jndi resource cannot be found, this can safely be ignored and will reconcile correctly at runtime.
 
 ![Install mdb 8](etc/installmdb8.png)
 
+You can now skip through the remaining steps and create the deployment. Lastly you will need to start the MDB deployment 
+from the `Applications` Menu. 
+
+
 ![Install mdb 9](etc/installmdb9.png)
 
+You can now log into the Artemis console and inspect the Consumers where you should see a pool of consumers on the in queue.
+
+If you dont see these then refer to the WebSphere logs for issues.
+
+![check console](etc/mdbconsole.png)
 
 # Gotchas
