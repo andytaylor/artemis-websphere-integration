@@ -192,4 +192,23 @@ If you dont see these then refer to the WebSphere logs for issues.
 
 ![check console](etc/mdbconsole.png)
 
+## Testing the MDB
+
+### Test using the Console
+
+You can test the MDB by simply navigating to the inQueue in the Artemis console and clicking the `Send Message` tab and sending a message.
+
+You can then check the inQueue and outQueue attributes to see the message count etc has changed
+
+### Test using the test client
+
+You can also use the Test client provided by navigating to the `test-client` directory and run the command:
+
+
+```shell script
+mvn clean test
+```
+
+This will send and receive 100 message to the MDB.
+
 # Gotchas
