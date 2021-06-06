@@ -212,3 +212,99 @@ mvn clean test
 This will send and receive 100 message to the MDB.
 
 # Gotchas
+
+**Error**
+
+```shell script
+WSCUrlFilter exception using CSRFResponseWrapper: com.ibm.websphere.servlet.error.ServletErrorReport: java.lang.NoSuchMethodError: org/apache/commons/beanutils/PropertyUtils.removeBidiChars&#40;Ljava/lang/String&#59;&#41;Ljava/lang/String&#59; &#40;
+```
+**Cause**
+
+This happens when the Resource Adapter Classloader is not Isolated. When this is false the RA shares the Classloader with 
+the Application Server, however the version of Apache Commons beanutils clashes with the version shipped with the RA ans  WebSphere
+tries to call a method on the wrong version that does not exist.
+
+---
+
+**Error**
+
+```shell script
+com.ibm.ws.exception.RuntimeError: com.ibm.ws.exception.RuntimeWarning: javax.resource.ResourceException: Failed to lookup ActivationSpec.eis/TestMDBActivation
+```
+
+**Cause** 
+
+This can happen when you create an MDB Deployment but the Resource Adapter didn't start correctly
+
+**Fix**
+
+Inspect the WebSphere logs to identify why the RA wasn't started.
+
+---
+
+**Error**
+
+```shell script
+SecurityException: No password credentials found
+```
+
+**Cause**
+
+This can happen when creating an outbound connection if the authentication Alias was not created and bound correctly.
+
+---
+
+**Fix**
+
+Create an authentication alias and configure the RA to use it
+
+**Error**
+
+Multiple logs of
+
+```shell script
+AMQ153005: Unable to retrieve "java:eis/inQueue" from JNDI. Creating a new "javax.jms.Queue" named "inQueue" to be used by the MDB.
+```
+
+**Cause**
+
+This means that either the queue was not created on the broker or that the RA does not have permissions to auto create the queue.
+
+**Fix**
+
+Configure the Quue on the broker
+
+---
+
+**Error**
+
+```shell script
+org.apache.activemq.artemis.ra.inflow.ActiveMQActivation reconnect AMQ154003: Unable to reconnect org.apache.activemq.artemis.ra.inflow.ActiveMQActivationSpec(ra=org.apache.activemq.artemis.ra.ActiveMQResourceAdapter@151f1de1 destination=java:eis/inQueue destinationType=javax.jms.Queue ack=Auto-acknowledge durable=false clientID=null user=null maxSession=15)
+ActiveMQNotConnectedException[errorType=NOT_CONNECTED message=AMQ219007: Cannot connect to server(s). Tried with all available servers.]
+```
+
+**Cause**
+
+Either the connection info is incorrect, i.e. wrong URL, or the wrong user/password is being used.
+
+**Fix**
+
+Make sure the connection details match the brokers
+
+---
+ **Error**
+ 
+ ```shell script
+javax.jms.JMSException: AMQ159007: Invalid Session Mode SESSION_TRANSACTED, to enable Local Transacted Sessions you can set the allowLocalTransactions (allow-local-transactions) on the resource adapter
+```
+
+**Cause**
+
+This happens when the MDB is using X transactions but the outgoing connection is configured not to, this typically happens 
+when creating from inside an MDB.
+
+**Fix**
+
+Either set inJtaTransaction to true on the MDB if you want the outgoing connection or participate in the XA Transaction,
+create a non transacted Connection via the API or configure a local transaction.
+ 
